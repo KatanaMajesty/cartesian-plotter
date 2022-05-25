@@ -274,30 +274,6 @@ Source/Core/Application.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cartesian-plotter.dir/build.make CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.s
 .PHONY : Source/Core/Application.cpp.s
 
-Source/Core/Events.o: Source/Core/Events.cpp.o
-.PHONY : Source/Core/Events.o
-
-# target to build an object file
-Source/Core/Events.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cartesian-plotter.dir/build.make CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o
-.PHONY : Source/Core/Events.cpp.o
-
-Source/Core/Events.i: Source/Core/Events.cpp.i
-.PHONY : Source/Core/Events.i
-
-# target to preprocess a source file
-Source/Core/Events.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cartesian-plotter.dir/build.make CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.i
-.PHONY : Source/Core/Events.cpp.i
-
-Source/Core/Events.s: Source/Core/Events.cpp.s
-.PHONY : Source/Core/Events.s
-
-# target to generate assembly for a file
-Source/Core/Events.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cartesian-plotter.dir/build.make CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.s
-.PHONY : Source/Core/Events.cpp.s
-
 Source/Core/Window.o: Source/Core/Window.cpp.o
 .PHONY : Source/Core/Window.o
 
@@ -360,9 +336,6 @@ help:
 	@echo "... Source/Core/Application.o"
 	@echo "... Source/Core/Application.i"
 	@echo "... Source/Core/Application.s"
-	@echo "... Source/Core/Events.o"
-	@echo "... Source/Core/Events.i"
-	@echo "... Source/Core/Events.s"
 	@echo "... Source/Core/Window.o"
 	@echo "... Source/Core/Window.i"
 	@echo "... Source/Core/Window.s"

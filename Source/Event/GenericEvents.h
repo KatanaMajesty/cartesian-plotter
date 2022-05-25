@@ -2,20 +2,23 @@
 
 #include <GLFW/glfw3.h>
 
-class GenericEvent
+namespace Events
 {
-public:
-	GenericEvent() = default;
-	~GenericEvent() = default;
+	class GenericEvent
+	{
+	public:
+		GenericEvent() = default;
+		~GenericEvent() = default;
 
-	virtual bool Execute() = 0;
-};
+		virtual bool Execute() = 0;
+	};
 
-class GenericKeyboardEvent
-{
-public:
-	GenericKeyboardEvent() = default;
-	~GenericKeyboardEvent() = default;
+	class GenericKeyboardEvent
+	{
+	public:
+		GenericKeyboardEvent() = default;
+		~GenericKeyboardEvent() = default;
 
-	virtual bool Execute(int state, GLFWwindow* context) = 0;
+		virtual bool Execute(int state, GLFWwindow* context) = 0;
+	};
 };

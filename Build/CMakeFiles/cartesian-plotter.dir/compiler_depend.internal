@@ -64,6 +64,8 @@ CMakeFiles/cartesian-plotter.dir/Main.cpp.o
  /usr/include/c++/11.2.0/bits/predefined_ops.h
  /usr/include/c++/11.2.0/bits/stl_tempbuf.h
  /usr/include/c++/11.2.0/bits/uniform_int_dist.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Event/GenericEvents.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Renderer.h
 
 CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o
  /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
@@ -128,18 +130,8 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o
  /usr/include/c++/11.2.0/bits/predefined_ops.h
  /usr/include/c++/11.2.0/bits/stl_tempbuf.h
  /usr/include/c++/11.2.0/bits/uniform_int_dist.h
-
-CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o
- /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
- /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Events.cpp
- /usr/include/stdc-predef.h
- /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Events.h
- /home/katanamanjaro/Documents/AP/cartesian-plotter/External/glfw/include/GLFW/glfw3.h
- /usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stddef.h
- /usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stdint.h
- /usr/include/GL/gl.h
- /usr/include/GL/glext.h
- /usr/include/KHR/khrplatform.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Event/GenericEvents.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Renderer.h
 
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o
  /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
@@ -203,7 +195,9 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o
  /usr/include/c++/11.2.0/bits/predefined_ops.h
  /usr/include/c++/11.2.0/bits/stl_tempbuf.h
  /usr/include/c++/11.2.0/bits/uniform_int_dist.h
- /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Events.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Event/GenericEvents.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Renderer.h
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Event/WindowEvents.h
 
 CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch
  /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx

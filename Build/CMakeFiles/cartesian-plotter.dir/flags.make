@@ -14,7 +14,5 @@ CXX_FLAGS =
 
 # PCH options: CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
-
 # PCH options: CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
 
