@@ -1,5 +1,5 @@
 #include <Core/Window.h>
-#include <Core/Events.h>
+#include <Event/WindowEvents.h>
 
 std::unique_ptr<Window::KeyEvents> Window::m_Callbacks = std::make_unique<Window::KeyEvents>();
 
@@ -10,7 +10,7 @@ void Window::ParseKeyboardInput(GLFWwindow* context, int key, int scancode, int 
 	Window::KeyEventsIterator iterator = m_Callbacks->find(key);
 	if (iterator != m_Callbacks->end())
 	{
-		iterator->second(state, context);
+		iterator->second->Execute(state, context);
 	}
 }
 
@@ -35,15 +35,7 @@ Window::Window(int& width, int& height)
 
 void Window::RegisterKeyCallbacks()
 {
-	Window::RegisterCallback(GLFW_KEY_ESCAPE, [&](int state, GLFWwindow* context) -> bool {
-		if (state == GLFW_PRESS)
-		{
-			Events::OnWindowShouldClose(context);
-			glfwSetWindowShouldClose(context, true);
-			return true;
-		}
-		return false;
-	});
+	Window::RegisterCallback<Events::WindowShouldCloseEvent>(GLFW_KEY_ESCAPE);
 }
 
 void Window::Open()
@@ -59,10 +51,4 @@ void Window::Open()
 void Window::Close()
 {
 	glfwSetWindowShouldClose(m_Window, true);
-}
-
-void Window::RegisterCallback(int key, std::function<bool(int, GLFWwindow*)> function)
-{
-	std::cout << "Registering callback for key: " << key << std::endl;
-	m_Callbacks->insert(std::make_pair(key, function));
 }
