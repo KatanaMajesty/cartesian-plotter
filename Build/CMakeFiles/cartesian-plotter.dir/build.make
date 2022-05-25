@@ -116,12 +116,28 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx -S /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Application.cpp -o CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.s
 
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o: CMakeFiles/cartesian-plotter.dir/flags.make
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o: ../Source/Core/Events.cpp
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o: CMakeFiles/cartesian-plotter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx -MD -MT CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o -MF CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o.d -o CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o -c /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Events.cpp
+
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx -E /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Events.cpp > CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.i
+
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx -S /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Events.cpp -o CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.s
+
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: CMakeFiles/cartesian-plotter.dir/flags.make
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: ../Source/Core/Window.cpp
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: CMakeFiles/cartesian-plotter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx -MD -MT CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o -MF CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o.d -o CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o -c /home/katanamanjaro/Documents/AP/cartesian-plotter/Source/Core/Window.cpp
 
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.i: cmake_force
@@ -136,6 +152,7 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.s: cmake_force
 cartesian__plotter_OBJECTS = \
 "CMakeFiles/cartesian-plotter.dir/Main.cpp.o" \
 "CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o" \
+"CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o" \
 "CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o"
 
 # External object files for target cartesian-plotter
@@ -144,6 +161,7 @@ cartesian__plotter_EXTERNAL_OBJECTS =
 cartesian-plotter: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch
 cartesian-plotter: CMakeFiles/cartesian-plotter.dir/Main.cpp.o
 cartesian-plotter: CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o
+cartesian-plotter: CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o
 cartesian-plotter: CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o
 cartesian-plotter: CMakeFiles/cartesian-plotter.dir/build.make
 cartesian-plotter: External/libIMGUI.a
@@ -152,7 +170,7 @@ cartesian-plotter: /usr/lib/libGLEW.so
 cartesian-plotter: /usr/lib/librt.a
 cartesian-plotter: /usr/lib/libm.so
 cartesian-plotter: CMakeFiles/cartesian-plotter.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable cartesian-plotter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/katanamanjaro/Documents/AP/cartesian-plotter/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable cartesian-plotter"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cartesian-plotter.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -52,4 +52,5 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: \
  /usr/include/c++/11.2.0/bits/move.h \
  /usr/include/c++/11.2.0/bits/predefined_ops.h \
  /usr/include/c++/11.2.0/bits/stl_tempbuf.h \
- /usr/include/c++/11.2.0/bits/uniform_int_dist.h
+ /usr/include/c++/11.2.0/bits/uniform_int_dist.h \
+ /home/katanamanjaro/Documents/AP/cartesian-plotter/./Source/Core/Events.h

@@ -127,6 +127,17 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o: CMakeFiles/carte
   /usr/include/c++/11.2.0/bits/stl_tempbuf.h \
   /usr/include/c++/11.2.0/bits/uniform_int_dist.h
 
+CMakeFiles/cartesian-plotter.dir/Source/Core/Events.cpp.o: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx \
+  ../Source/Core/Events.cpp \
+  /usr/include/stdc-predef.h \
+  ../Source/Core/Events.h \
+  ../External/glfw/include/GLFW/glfw3.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stddef.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include/stdint.h \
+  /usr/include/GL/gl.h \
+  /usr/include/GL/glext.h \
+  /usr/include/KHR/khrplatform.h
+
 CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx \
   ../Source/Core/Window.cpp \
   /usr/include/stdc-predef.h \
@@ -187,7 +198,8 @@ CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o: CMakeFiles/cartesian-
   /usr/include/c++/11.2.0/bits/move.h \
   /usr/include/c++/11.2.0/bits/predefined_ops.h \
   /usr/include/c++/11.2.0/bits/stl_tempbuf.h \
-  /usr/include/c++/11.2.0/bits/uniform_int_dist.h
+  /usr/include/c++/11.2.0/bits/uniform_int_dist.h \
+  ../Source/Core/Events.h
 
 CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch: CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx \
   CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.cxx \
@@ -490,8 +502,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch: CMakeFiles/cartesian-plotter
 
 /usr/include/bits/types/timer_t.h:
 
-/usr/include/bits/types/clockid_t.h:
-
 /usr/include/bits/types/struct_timeval.h:
 
 /usr/include/wctype.h:
@@ -503,8 +513,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch: CMakeFiles/cartesian-plotter
 /usr/include/c++/11.2.0/bits/align.h:
 
 /usr/include/time.h:
-
-/usr/include/bits/cpu-set.h:
 
 /usr/include/bits/types/struct_sched_param.h:
 
@@ -521,6 +529,14 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch: CMakeFiles/cartesian-plotter
 /usr/include/c++/11.2.0/bits/basic_string.tcc:
 
 /usr/include/c++/11.2.0/bits/basic_string.h:
+
+/usr/include/c++/11.2.0/bits/shared_ptr.h:
+
+/usr/include/c++/11.2.0/bits/cxxabi_forced.h:
+
+/usr/include/c++/11.2.0/bits/ostream_insert.h:
+
+/usr/include/bits/endian.h:
 
 /usr/include/bits/types/__fpos_t.h:
 
@@ -555,6 +571,10 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.gch: CMakeFiles/cartesian-plotter
 /usr/include/c++/11.2.0/bits/stringfwd.h:
 
 /usr/include/c++/11.2.0/bits/functexcept.h:
+
+/usr/include/bits/endianness.h:
+
+/usr/include/features.h:
 
 /usr/include/bits/types/struct___jmp_buf_tag.h:
 
@@ -700,8 +720,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx.cxx:
 
 CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 
-/usr/include/bits/endian.h:
-
 /usr/include/c++/11.2.0/bits/uniform_int_dist.h:
 
 /usr/include/bits/locale.h:
@@ -713,10 +731,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 /usr/include/c++/11.2.0/bits/stl_function.h:
 
 /usr/include/stdint.h:
-
-/usr/include/c++/11.2.0/bits/shared_ptr.h:
-
-/usr/include/c++/11.2.0/bits/cxxabi_forced.h:
 
 /usr/include/c++/11.2.0/bits/ptr_traits.h:
 
@@ -738,8 +752,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 
 /usr/include/c++/11.2.0/ext/numeric_traits.h:
 
-/usr/include/c++/11.2.0/bits/predefined_ops.h:
-
 /usr/include/c++/11.2.0/pstl/execution_defs.h:
 
 /usr/include/c++/11.2.0/type_traits:
@@ -747,6 +759,28 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 /usr/include/bits/stdint-intn.h:
 
 ../Source/Core/Application.cpp:
+
+../Source/Core/Events.cpp:
+
+/usr/include/bits/types/clockid_t.h:
+
+../Source/Core/Events.h:
+
+/usr/include/c++/11.2.0/bits/predefined_ops.h:
+
+/usr/include/GL/glext.h:
+
+/usr/include/c++/11.2.0/bits/ostream.tcc:
+
+/usr/include/bits/struct_mutex.h:
+
+/usr/include/c++/11.2.0/bits/localefwd.h:
+
+/usr/include/bits/cpu-set.h:
+
+/usr/include/KHR/khrplatform.h:
+
+/usr/include/bits/types/__FILE.h:
 
 /usr/include/c++/11.2.0/bits/streambuf_iterator.h:
 
@@ -822,8 +856,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 
 /usr/include/bits/types/mbstate_t.h:
 
-/usr/include/bits/types/__FILE.h:
-
 /usr/include/c++/11.2.0/bits/basic_ios.tcc:
 
 /usr/include/c++/11.2.0/unordered_map:
@@ -844,12 +876,6 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 
 /usr/include/c++/11.2.0/x86_64-pc-linux-gnu/bits/c++allocator.h:
 
-/usr/include/c++/11.2.0/bits/ostream.tcc:
-
-/usr/include/bits/struct_mutex.h:
-
-/usr/include/c++/11.2.0/bits/localefwd.h:
-
 /usr/include/c++/11.2.0/x86_64-pc-linux-gnu/bits/atomic_word.h:
 
 /usr/include/c++/11.2.0/x86_64-pc-linux-gnu/bits/c++locale.h:
@@ -857,9 +883,3 @@ CMakeFiles/cartesian-plotter.dir/cmake_pch.hxx:
 /usr/include/bits/waitflags.h:
 
 /usr/include/ctype.h:
-
-/usr/include/features.h:
-
-/usr/include/bits/endianness.h:
-
-/usr/include/c++/11.2.0/bits/ostream_insert.h:
