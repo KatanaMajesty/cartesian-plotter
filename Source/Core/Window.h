@@ -18,9 +18,10 @@ public:
 	void Open();
 	void Close();
 
-	static void Register_Callback(int key, std::function<bool(int, GLFWwindow*)>);
+	void RegisterKeyCallbacks();
 private:
-	static void Parse_Keyboard_Input(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void RegisterCallback(int key, std::function<bool(int, GLFWwindow*)>);
+	static void ParseKeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 private:
 	int* m_Width;
 	int* m_Height;

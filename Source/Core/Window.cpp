@@ -1,8 +1,9 @@
 #include <Core/Window.h>
+#include <Core/Events.h>
 
 std::unique_ptr<Window::KeyEvents> Window::m_Callbacks = std::make_unique<Window::KeyEvents>();
 
-void Window::Parse_Keyboard_Input(GLFWwindow* context, int key, int scancode, int state, int mods)
+void Window::ParseKeyboardInput(GLFWwindow* context, int key, int scancode, int state, int mods)
 {
 	// States are GLFW_PRESS or GLFW_RELEASE in most cases
 	// Keys are usually GLFW_KEY_W...A...S...D
@@ -29,19 +30,25 @@ Window::Window(int& width, int& height)
 		throw std::runtime_error("glew init");
 	}
 
-	glfwSetKeyCallback(m_Window, Window::Parse_Keyboard_Input);
+	glfwSetKeyCallback(m_Window, Window::ParseKeyboardInput);
 }
 
-void Window::Open()
+void Window::RegisterKeyCallbacks()
 {
-	Window::Register_Callback(GLFW_KEY_ESCAPE, [&](int state, GLFWwindow* context) -> bool {
+	Window::RegisterCallback(GLFW_KEY_ESCAPE, [&](int state, GLFWwindow* context) -> bool {
 		if (state == GLFW_PRESS)
 		{
+			Events::OnWindowShouldClose(context);
 			glfwSetWindowShouldClose(context, true);
 			return true;
 		}
 		return false;
 	});
+}
+
+void Window::Open()
+{
+	RegisterKeyCallbacks();
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		glfwSwapBuffers(m_Window);
@@ -54,7 +61,7 @@ void Window::Close()
 	glfwSetWindowShouldClose(m_Window, true);
 }
 
-void Window::Register_Callback(int key, std::function<bool(int, GLFWwindow*)> function)
+void Window::RegisterCallback(int key, std::function<bool(int, GLFWwindow*)> function)
 {
 	std::cout << "Registering callback for key: " << key << std::endl;
 	m_Callbacks->insert(std::make_pair(key, function));
