@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic "CMakeFiles/cartesian-plotter.dir/Main.cpp.o" "CMakeFiles/cartesian-plotter.dir/Source/Core/Application.cpp.o" "CMakeFiles/cartesian-plotter.dir/Source/Core/Window.cpp.o" -o cartesian-plotter  External/libIMGUI.a External/glfw/src/libglfw3.a /usr/lib/libGLEW.so -lGL -Wl,-Bstatic -lrt -Wl,-Bdynamic -lm -ldl 
