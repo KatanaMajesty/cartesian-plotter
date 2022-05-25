@@ -7,11 +7,12 @@
 #include <functional>
 
 #include <Event/GenericEvents.h>
+#include <Core/Renderer.h>
 
 class Window
 {
 public:
-	using KeyEvents = std::unordered_map<int, std::shared_ptr<GenericKeyboardEvent>>;
+	using KeyEvents = std::unordered_map<int, std::shared_ptr<Events::GenericKeyboardEvent>>;
 	using KeyEventsIterator = KeyEvents::const_iterator;
 	
 public:
@@ -22,6 +23,7 @@ public:
 	void Close();
 
 	void RegisterKeyCallbacks();
+	void CreateRenderContext();
 
 private:
 	template <class Event> void RegisterCallback(int key)
@@ -36,6 +38,7 @@ private:
 	int* m_Width;
 	int* m_Height;
 	GLFWwindow* m_Window;
+	std::unique_ptr<Renderer> m_Renderer;
 
 	// Key - keyboard code, Value - function that returns boolean and takes state of event (released/pressed)
 	static std::unique_ptr<KeyEvents> m_Callbacks;

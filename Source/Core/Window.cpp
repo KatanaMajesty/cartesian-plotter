@@ -38,11 +38,25 @@ void Window::RegisterKeyCallbacks()
 	Window::RegisterCallback<Events::WindowShouldCloseEvent>(GLFW_KEY_ESCAPE);
 }
 
+void Window::CreateRenderContext()
+{
+	m_Renderer = std::make_unique<Renderer>();
+}
+
 void Window::Open()
 {
 	RegisterKeyCallbacks();
+
+	CreateRenderContext();
+
 	while (!glfwWindowShouldClose(m_Window))
 	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0.11f, 0.11f, 0.12f, 1.0f);
+
+		m_Renderer->Render();
+		m_Renderer->ImGuiRender();
+
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}
