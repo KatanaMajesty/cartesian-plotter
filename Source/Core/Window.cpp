@@ -1,5 +1,4 @@
 #include <Core/Window.h>
-#include <Event/WindowEvents.h>
 
 std::unique_ptr<Window::KeyEvents> Window::m_Callbacks = std::make_unique<Window::KeyEvents>();
 
@@ -24,12 +23,6 @@ Window::Window(int& width, int& height)
 	}
 
 	glfwMakeContextCurrent(m_Window);
-
-	if (glewInit() != GLEW_OK)
-	{
-		throw std::runtime_error("glew init");
-	}
-
 	glfwSetKeyCallback(m_Window, Window::ParseKeyboardInput);
 }
 
@@ -38,16 +31,16 @@ void Window::RegisterKeyCallbacks()
 	Window::RegisterCallback<Events::WindowShouldCloseEvent>(GLFW_KEY_ESCAPE);
 }
 
-void Window::CreateRenderContext()
+void Window::CreateRenderContext(GLFWwindow* context)
 {
-	m_Renderer = std::make_unique<Renderer>();
+	m_Renderer = std::make_unique<Renderer>(context, 2048);
 }
 
 void Window::Open()
 {
 	RegisterKeyCallbacks();
 
-	CreateRenderContext();
+	CreateRenderContext(m_Window);
 
 	while (!glfwWindowShouldClose(m_Window))
 	{

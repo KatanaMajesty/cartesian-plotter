@@ -1,12 +1,10 @@
 #pragma once
 
 // Glew should be on top of GLFW
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <unordered_map>
 #include <functional>
 
-#include <Event/GenericEvents.h>
+#include <Event/Events.h>
 #include <Core/Renderer.h>
 
 class Window
@@ -23,7 +21,7 @@ public:
 	void Close();
 
 	void RegisterKeyCallbacks();
-	void CreateRenderContext();
+	void CreateRenderContext(GLFWwindow* context);
 
 private:
 	template <class Event> void RegisterCallback(int key)
