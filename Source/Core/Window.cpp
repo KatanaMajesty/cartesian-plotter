@@ -6,11 +6,18 @@ void Window::ParseKeyboardInput(GLFWwindow* context, int key, int scancode, int 
 {
 	// States are GLFW_PRESS or GLFW_RELEASE in most cases
 	// Keys are usually GLFW_KEY_W...A...S...D
+	Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(context));
 	Window::KeyEventsIterator iterator = m_Callbacks->find(key);
 	if (iterator != m_Callbacks->end())
 	{
-		iterator->second->Execute(state, context);
+		iterator->second(state, window);
 	}
+}
+
+void Window::ParseWindowResize(GLFWwindow* context, int width, int height)
+{
+	Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(context));
+	Events::onWindowResize(width, height, window);
 }
 
 Window::Window(int& width, int& height)
@@ -23,24 +30,32 @@ Window::Window(int& width, int& height)
 	}
 
 	glfwMakeContextCurrent(m_Window);
+	glfwSetWindowUserPointer(m_Window, reinterpret_cast<void*>(this));
 	glfwSetKeyCallback(m_Window, Window::ParseKeyboardInput);
+	glfwSetWindowSizeCallback(m_Window, Window::ParseWindowResize);
 }
 
 void Window::RegisterKeyCallbacks()
 {
-	Window::RegisterCallback<Events::WindowShouldCloseEvent>(GLFW_KEY_ESCAPE);
+	Window::RegisterCallback(GLFW_KEY_ESCAPE, Events::onWindowClose);
 }
 
-void Window::CreateRenderContext(GLFWwindow* context)
+void Window::RegisterCallback(int key, std::function<bool(int, Window*)> function)
 {
-	m_Renderer = std::make_unique<Renderer>(context, 2048);
+	std::cout << "Registering callback for key: " << key << std::endl;
+	m_Callbacks->insert(std::make_pair(key, function));
+}
+
+void Window::CreateRenderContext()
+{
+	m_Renderer = std::make_unique<Renderer>(this, 2048);
 }
 
 void Window::Open()
 {
 	RegisterKeyCallbacks();
 
-	CreateRenderContext(m_Window);
+	CreateRenderContext();
 
 	while (!glfwWindowShouldClose(m_Window))
 	{
@@ -49,6 +64,8 @@ void Window::Open()
 
 		m_Renderer->Render();
 		m_Renderer->ImGuiRender();
+
+		glViewport(0, 0, *m_Width, *m_Height);
 
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();

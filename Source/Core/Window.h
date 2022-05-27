@@ -7,10 +7,12 @@
 #include <Event/Events.h>
 #include <Core/Renderer.h>
 
+// void GLFWKeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+
 class Window
 {
 public:
-	using KeyEvents = std::unordered_map<int, std::shared_ptr<Events::GenericKeyboardEvent>>;
+	using KeyEvents = std::unordered_map<int, std::function<bool(int, Window*)>>;
 	using KeyEventsIterator = KeyEvents::const_iterator;
 	
 public:
@@ -21,17 +23,16 @@ public:
 	void Close();
 
 	void RegisterKeyCallbacks();
-	void CreateRenderContext(GLFWwindow* context);
+	void CreateRenderContext();
 
+	inline GLFWwindow* Context() { return m_Window; }
+	inline constexpr float AspectRatio() const { return static_cast<float>(*m_Width) / *m_Height; }
+	inline void SetAspectRatio(int width, int height) { *m_Width = width; *m_Height = height; }
 private:
-	template <class Event> void RegisterCallback(int key)
-	{
-		std::cout << "Registering callback for key: " << key << std::endl;
-		m_Callbacks->insert(std::make_pair( key, std::move( std::make_shared<Event>() ) ));
-	}
+	void RegisterCallback(int key, std::function<bool(int, Window*)> function);
 
-	static void ParseKeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods);
-
+	static void ParseKeyboardInput(GLFWwindow* context, int key, int scancode, int action, int mods);
+	static void ParseWindowResize(GLFWwindow* context, int width, int height);
 private:
 	int* m_Width;
 	int* m_Height;
