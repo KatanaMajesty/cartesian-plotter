@@ -1,60 +1,69 @@
 #include <Core/Window.h>
 
-std::unique_ptr<Window::KeyEvents> Window::m_Callbacks = std::make_unique<Window::KeyEvents>();
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
-void Window::ParseKeyboardInput(GLFWwindow* context, int key, int scancode, int state, int mods)
+static void ImGuiInit(GLFWwindow* context)
 {
-	// States are GLFW_PRESS or GLFW_RELEASE in most cases
-	// Keys are usually GLFW_KEY_W...A...S...D
-	Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(context));
-	Window::KeyEventsIterator iterator = m_Callbacks->find(key);
-	if (iterator != m_Callbacks->end())
-	{
-		iterator->second(state, window);
-	}
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		// Enable Docking
+	// io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Multi-Viewport / Platform Windows
+
+	ImGui::StyleColorsDark();
+
+	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+    	ImGuiStyle& style = ImGui::GetStyle();
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
+
+    ImGui_ImplGlfw_InitForOpenGL(context, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 }
 
-void Window::ParseWindowResize(GLFWwindow* context, int width, int height)
+static void ImGuiDestroy()
 {
-	Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(context));
-	Events::onWindowResize(width, height, window);
+	// Cleanup
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }
 
-Window::Window(int& width, int& height)
-: m_Width(&width), m_Height(&height)
+Window::Window(int width, int height, const char* title)
+: m_Width(width), m_Height(height)
 {
-	m_Window = glfwCreateWindow(width, height, "Cartesian Plotter", nullptr, nullptr);
+	m_Window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (!m_Window)
 	{
 		throw std::runtime_error("window is null");
 	}
 
 	glfwMakeContextCurrent(m_Window);
-	glfwSetWindowUserPointer(m_Window, reinterpret_cast<void*>(this));
-	glfwSetKeyCallback(m_Window, Window::ParseKeyboardInput);
-	glfwSetWindowSizeCallback(m_Window, Window::ParseWindowResize);
 }
 
-void Window::RegisterKeyCallbacks()
+Window::~Window()
 {
-	Window::RegisterCallback(GLFW_KEY_ESCAPE, Events::onWindowClose);
-}
-
-void Window::RegisterCallback(int key, std::function<bool(int, Window*)> function)
-{
-	std::cout << "Registering callback for key: " << key << std::endl;
-	m_Callbacks->insert(std::make_pair(key, function));
+	ImGuiDestroy();
 }
 
 void Window::CreateRenderContext()
 {
+	if (m_Renderer)
+	{
+		m_Renderer.reset();
+	}
 	m_Renderer = std::make_unique<Renderer>(this, 2048);
 }
 
 void Window::Open()
 {
-	RegisterKeyCallbacks();
-
+	ImGuiInit(this->Context());
 	CreateRenderContext();
 
 	while (!glfwWindowShouldClose(m_Window))
@@ -65,7 +74,7 @@ void Window::Open()
 		m_Renderer->Render();
 		m_Renderer->ImGuiRender();
 
-		glViewport(0, 0, *m_Width, *m_Height);
+		glViewport(0, 0, m_Width, m_Height);
 
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();

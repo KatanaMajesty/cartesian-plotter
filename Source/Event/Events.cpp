@@ -4,14 +4,9 @@
 namespace Events
 {
 	bool onWindowClose(int state, Window* window)
-	{
-		if (state == GLFW_PRESS)
-		{
-			std::cout << "Window will be closed now" << std::endl;
-			glfwSetWindowShouldClose(window->Context(), true);
-			return true;
-		}
-		return false;
+	{		
+		window->Close();
+		return true;
 	}
 
 	bool onWindowResize(int width, int height, Window* window)

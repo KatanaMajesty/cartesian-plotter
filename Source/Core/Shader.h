@@ -1,8 +1,14 @@
 #pragma once
 
+// Thirdparty & STD includes
 #include <glm/glm.hpp>
 #include <unordered_map>
 
+/**
+ * 	@brief Shader class represents OpenGL program that holds GLSL shader source.
+ * 	
+ * 	This class provides convenient uniform setup, shader binding & efficient GLSL source parsing.
+ */
 class Shader
 {
 public:

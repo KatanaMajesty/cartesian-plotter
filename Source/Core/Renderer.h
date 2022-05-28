@@ -1,15 +1,17 @@
 #pragma once
 
-#include <Core/Shader.h>
-#include <Core/Camera.h>
-
+// Thirdparty & STD includes
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include <unordered_map>
 #include <vector>
 
+// Project Includes
+#include <Core/Shader.h>
+#include <Core/Camera.h>
+
+// Simple primitives and Vertex information
 struct Vertex
 {
 	glm::vec2 position;
@@ -18,24 +20,44 @@ struct Vertex
 struct Line
 {
 	Vertex a, b;
-	inline constexpr size_t Vertices() const { return 2; }
+	inline constexpr size_t Vertices() const noexcept { return 2; }
 };
 
 struct Triangle
 {
 	Vertex a, b, c;
-	inline constexpr size_t Vertices() const { return 3; }
+	inline constexpr size_t Vertices() const noexcept { return 3; }
 };
 
 struct Quad
 {
 	Vertex a, b, c, d;
-	inline constexpr size_t Vertices() const { return 4; }
+	inline constexpr size_t Vertices() const noexcept { return 4; }
 };
 
 // forward declaration
-class Window;
+class Window;	// TODO: Remove forward declaration
 
+/**
+ * 	Renderer class represents an object, that allows to render primitives, 
+ * 	attach shaders and manipulate with Window object it's context is stored in.
+ * 
+ * 	Since 27.05 Renderer uses dynamic batching map, which most likely will be rewritten soon.
+ * 	Now it takes in draw mode, e.g. GL_LINES or GL_TRIANGLE and adds vertices to respective bucket in map
+ *  Number of drawcalls will be equal to the number of map's buckets
+ * 	
+ * 	Renderer constructor takes in a Window object pointer and a number of maximum vertices
+ * 	in dynamic batching map. It's used in order to setup OpenGL state machine, e.g. VAO, VBO, shaders, etc.
+ * 	GLEW and GL functions are also initialized in Renderer's constructor
+ * 
+ * 	Render() & ImGuiRender methods called each frame in @see @ref Window main-loop.
+ * 
+ * 	In order to draw primitives, that were pushed into dynamic batching map using PushDrawData() method,
+ * 	FlushDrawData() method should be used
+ * 
+ * 	Shaders are stored in map, that represents <const char*, @see @ref Shader> pair.
+ * 	They may be accessed anywhere in object's scope with method FindShader() once MapShader() method is used.
+ */	
 class Renderer
 {
 public:
@@ -48,6 +70,7 @@ public:
 	void Render();
 	void ImGuiRender();
 
+	// TODO: Should be rewritten to something more efficient
 	std::shared_ptr<Shader> MapShader(const char* name);
 	Shader& FindShader(const char* name);
 
@@ -58,10 +81,10 @@ private:
 	unsigned int m_VBO;
 	unsigned int m_Program;
 	size_t m_Vertices;
-
 	Window* const m_Window;
 
 	Camera m_Camera;
+
 	ShaderMap m_ShaderMap;
 	/*
 	Dynamic Batching map adds primitives into unordered map by a key - Draw Mode

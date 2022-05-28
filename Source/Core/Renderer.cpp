@@ -5,29 +5,6 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
-void ImGuiInit(GLFWwindow* context)
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		// Enable Docking
-	// io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Multi-Viewport / Platform Windows
-
-	ImGui::StyleColorsDark();
-
-	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-    	ImGuiStyle& style = ImGui::GetStyle();
-        style.WindowRounding = 0.0f;
-        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-    }
-
-    ImGui_ImplGlfw_InitForOpenGL(context, true);
-    ImGui_ImplOpenGL3_Init("#version 130");
-}
-
 std::shared_ptr<Shader> basicShader;
 glm::mat4 projection;
 glm::mat4 view;
@@ -37,8 +14,6 @@ glm::mat4 model;
 Renderer::Renderer(Window* const window, size_t vertices)
 : m_Window(window), m_Vertices(vertices)
 {
-	ImGuiInit(m_Window->Context());
-
 	if (glewInit() != GLEW_OK)
 	{
 		throw std::runtime_error("glew init");
@@ -136,9 +111,11 @@ void Renderer::PushDrawData(unsigned int drawMode, Vertex* data, size_t count)
 
 void Renderer::FlushDrawData()
 {
+	size_t offset = 0;
 	for (auto& pair : m_DynamicBatching)
 	{
-		glBufferSubData(GL_ARRAY_BUFFER, 0, pair.second.size() * sizeof(Vertex), pair.second.data());
-		glDrawArrays(pair.first, 0, pair.second.size());
+		glBufferSubData(GL_ARRAY_BUFFER, offset * sizeof(Vertex), pair.second.size() * sizeof(Vertex), pair.second.data());
+		glDrawArrays(pair.first, offset, pair.second.size());
+		offset += pair.second.size();
 	}
 }
