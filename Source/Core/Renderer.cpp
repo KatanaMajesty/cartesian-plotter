@@ -79,7 +79,9 @@ void Renderer::Render()
 // This ImGui context method will be called each frame in main loop
 void Renderer::ImGuiRender() 
 {
+	ImGui::Begin("Hello, ImGui!");
 
+	ImGui::End();
 }
 
 std::shared_ptr<Shader> Renderer::MapShader(const char* name)

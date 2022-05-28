@@ -4,7 +4,7 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
-static void ImGuiInit(GLFWwindow* context)
+static ImGuiIO& ImGuiInit(GLFWwindow* context)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -25,6 +25,7 @@ static void ImGuiInit(GLFWwindow* context)
 
     ImGui_ImplGlfw_InitForOpenGL(context, true);
     ImGui_ImplOpenGL3_Init("#version 130");
+    return io;
 }
 
 static void ImGuiDestroy()
@@ -63,7 +64,7 @@ void Window::CreateRenderContext()
 
 void Window::Open()
 {
-	ImGuiInit(this->Context());
+	ImGuiIO& io = ImGuiInit(this->Context());
 	CreateRenderContext();
 
 	while (!glfwWindowShouldClose(m_Window))
@@ -72,7 +73,26 @@ void Window::Open()
 		glClearColor(0.11f, 0.11f, 0.12f, 1.0f);
 
 		m_Renderer->Render();
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
 		m_Renderer->ImGuiRender();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		// Update and Render additional Platform Windows
+        // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+        //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
 
 		glViewport(0, 0, m_Width, m_Height);
 
