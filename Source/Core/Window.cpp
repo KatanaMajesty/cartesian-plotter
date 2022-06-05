@@ -1,4 +1,5 @@
 #include <Core/Window.h>
+#include <Renderer.h>
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -9,9 +10,8 @@ static ImGuiIO& ImGuiInit(GLFWwindow* context)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		// Enable Docking
-	// io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Multi-Viewport / Platform Windows
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		// Enable Multi-Viewport / Platform Windows
 
 	ImGui::StyleColorsDark();
 
@@ -36,8 +36,8 @@ static void ImGuiDestroy()
     ImGui::DestroyContext();
 }
 
-Window::Window(int width, int height, const char* title)
-: m_Width(width), m_Height(height)
+Window::Window(int width, int height, const char* title, FrameCallback callback)
+: m_Width(width), m_Height(height), m_FrameCallback(callback)
 {
 	m_Window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (!m_Window)
@@ -51,12 +51,14 @@ Window::Window(int width, int height, const char* title)
 Window::~Window()
 {
 	ImGuiDestroy();
+	glfwDestroyWindow(this->Context());
 }
 
 void Window::CreateRenderContext()
 {
 	if (m_Renderer)
 	{
+		std::cout << "Resetting the renderer\n";
 		m_Renderer.reset();
 	}
 	m_Renderer = std::make_unique<Renderer>(this, 2048);
@@ -65,6 +67,8 @@ void Window::CreateRenderContext()
 void Window::Open()
 {
 	ImGuiIO& io = ImGuiInit(this->Context());
+	std::cout << "Window is opening. Creating rendering context\n";
+
 	CreateRenderContext();
 
 	while (!glfwWindowShouldClose(m_Window))
@@ -72,13 +76,17 @@ void Window::Open()
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0.11f, 0.11f, 0.12f, 1.0f);
 
-		m_Renderer->Render();
+		m_FrameCallback(this);
+
+		// std::cout << "Render frame in Window\n";
+		RenderContext()->Update();
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		m_Renderer->ImGuiRender();
+		// std::cout << "ImGui frame in Window\n";
+		RenderContext()->ImGuiUpdate(io);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
