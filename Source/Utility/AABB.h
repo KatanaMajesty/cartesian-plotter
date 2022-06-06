@@ -25,19 +25,19 @@ struct AABB
 
 	// Check for collision
 	bool CollideWith(const Vertex&) const;
-	bool CollideWith(const glm::vec2) const;
+	bool CollideWith(const sol::Vec2f) const;
 	bool CollideWith(const AABB&) const;
 	// This method allows to transform AABB with model matrix
 	// This is very important so that we avoid multiplying every object 
 	// vertex on CPU and only manipulate AABB
-	AABB Transform(const glm::mat4& model);
+	AABB Transform(const sol::Mat4f& model);
 
 	// overloaded operators for ostream& and matrix multiplication
 	friend std::ostream& operator<<(std::ostream& stream, const AABB& aabb);
-	friend AABB operator*(const glm::mat4& mat, AABB& aabb);
+	friend AABB operator*(const sol::Mat4f& mat, AABB& aabb);
 
 	// Creates AABB from the given parameter
 	// Note that creating AABB from vector is O(n), although creating AABB with (min, max) is O(1)
 	static AABB Create(const std::vector<Vertex>& vec);
-	static AABB Create(glm::vec2 min, glm::vec2 max, glm::vec4 color = glm::vec4(0.9f, 0.6f, 0.3f, 1.0f));
+	static AABB Create(sol::Vec2f min, sol::Vec2f max, sol::Vec4f color = sol::Vec4f(0.9f, 0.6f, 0.3f, 1.0f));
 };

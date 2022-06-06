@@ -64,11 +64,11 @@ public:
 	~Object() = default;
 		
 	// This method returns a ready-to-go MVP matrix
-	glm::mat4 ConstructModel() const;
+	sol::Mat4f ConstructModel() const;
 	// will push_back vertices to object's vertex array 
 	void AddVertices(std::initializer_list<Vertex> vertices);
 	// changes the color of each vertex in the object's current vertex array
-	void FillColor(const glm::vec4 color);
+	void FillColor(const sol::Vec4f color);
 	// creates AABB from the object's current vertex array
 	void CreateAABB();
 
@@ -83,10 +83,10 @@ public:
 
 	constexpr inline float& Angle() { return m_RotationAngle; }
 	constexpr inline const float& Angle() const { return m_RotationAngle; }
-	constexpr inline glm::vec3& Scale() { return m_Scale; }
-	constexpr inline const glm::vec3& Scale() const { return m_Scale; }
-	constexpr inline glm::vec3& Transform() { return m_Transform; }
-	constexpr inline const glm::vec3& Transform() const { return m_Transform; }
+	constexpr inline sol::Vec3f& Scale() { return m_Scale; }
+	constexpr inline const sol::Vec3f& Scale() const { return m_Scale; }
+	constexpr inline sol::Vec3f& Transform() { return m_Transform; }
+	constexpr inline const sol::Vec3f& Transform() const { return m_Transform; }
 
 	inline AABB& GetAABB() { return *m_AABB.get(); }
 	inline const AABB& GetAABB() const { return *m_AABB.get(); }
@@ -106,8 +106,8 @@ private:
 
 	// Components of MVP matrix, that can be modified at runtime
 	float m_RotationAngle = 0.0f;
-	glm::vec3 m_Scale = glm::vec3(1.0f);
-	glm::vec3 m_Transform = glm::vec3(0.0f);
+	sol::Vec3f m_Scale = sol::Vec3f(1.0f);
+	sol::Vec3f m_Transform = sol::Vec3f(0.0f);
 
 	bool m_Selected = false;
 	bool m_RenderAABB = false;

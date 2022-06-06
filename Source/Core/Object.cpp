@@ -14,11 +14,11 @@ Object::Object(std::vector<Vertex>&& vector, Material* material, bool isCollider
 {
 }
 
-glm::mat4 Object::ConstructModel() const
+sol::Mat4f Object::ConstructModel() const
 {
-	return glm::translate(glm::mat4(1.0f), m_Transform)
-		* glm::rotate(glm::mat4(1.0f), m_RotationAngle, glm::vec3(0.0f, 0.0f, 1.0f))
-		* glm::scale(glm::mat4(1.0f), m_Scale);
+	return sol::Scale(m_Scale)
+		* sol::RotateZ(m_RotationAngle) 
+		* sol::Translate(sol::Mat4f(1.0f), m_Transform);
 }
 
 void Object::AddVertices(std::initializer_list<Vertex> vertices)
@@ -26,7 +26,7 @@ void Object::AddVertices(std::initializer_list<Vertex> vertices)
 	std::for_each(vertices.begin(), vertices.end(), [&](const Vertex& vertex) { m_Vertices.push_back(vertex); });
 }
 
-void Object::FillColor(const glm::vec4 color)
+void Object::FillColor(const sol::Vec4f color)
 {
 	for (Vertex& v : m_Vertices)
 	{
@@ -65,8 +65,8 @@ Object::Object(Object&& other)
 	// We should also steal the state of previous object
 	other.m_Selected = false;
 	other.m_RotationAngle = 0.0f;
-	other.m_Scale = glm::vec3(1.0f);
-	other.m_Transform = glm::vec3(0.0f);
+	other.m_Scale = sol::Vec3f(1.0f);
+	other.m_Transform = sol::Vec3f(0.0f);
 	other.m_Material = nullptr;
 	other.m_IsCollider = true;
 	other.m_RenderAABB = false;
@@ -115,8 +115,8 @@ Object& Object::operator=(Object&& other)
 	// We should also steal the state of previous object
 	other.m_Selected = false;
 	other.m_RotationAngle = 0.0f;
-	other.m_Scale = glm::vec3(1.0f);
-	other.m_Transform = glm::vec3(0.0f);
+	other.m_Scale = sol::Vec3f(1.0f);
+	other.m_Transform = sol::Vec3f(0.0f);
 	other.m_Material = nullptr;
 	other.m_IsCollider = true;
 	other.m_AABB.reset();

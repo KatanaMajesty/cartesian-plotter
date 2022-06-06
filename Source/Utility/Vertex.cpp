@@ -1,12 +1,13 @@
 #include <Utility/Vertex.h>
+#include <Utility/Matrix.h>
 
-Vertex::Vertex(float x, float y, glm::vec4 color)
-: position(glm::vec2(x, y)), color(color) {}
+Vertex::Vertex(float x, float y, sol::Vec4f color)
+: position(sol::Vec2f(x, y)), color(color) {}
 
 Vertex::Vertex(float x, float y, float r, float g, float b, float a)
-: position(glm::vec2(x, y)), color(glm::vec4(r, g, b, a)) {}
+: position(sol::Vec2f(x, y)), color(sol::Vec4f(r, g, b, a)) {}
 
-Vertex::Vertex(glm::vec2 pos, glm::vec4 color)
+Vertex::Vertex(sol::Vec2f pos, sol::Vec4f color)
 : position(pos), color(color) {}
 
 std::ostream& operator<<(std::ostream& stream, const Vertex& v)
@@ -15,15 +16,15 @@ std::ostream& operator<<(std::ostream& stream, const Vertex& v)
 	return stream;
 }
 
-Vertex& operator*(const glm::mat4& mat, Vertex& vertex)
+Vertex& operator*(const sol::Mat4f& mat, Vertex& vertex)
 {
-	vertex.position = glm::vec2(mat * glm::vec4(vertex.position, 0.0f, 1.0f));
+	vertex.position = sol::Vec2f(mat * sol::Vec4f(vertex.position, 0.0f, 1.0f));
 	return vertex;
 }
 
-Vertex operator*(const glm::mat4& mat, const Vertex& vertex)
+Vertex operator*(const sol::Mat4f& mat, const Vertex& vertex)
 {
-	return Vertex(glm::vec2(mat * glm::vec4(vertex.position, 0.0f, 1.0f)), vertex.color);
+	return Vertex(sol::Vec2f(mat * sol::Vec4f(vertex.position, 0.0f, 1.0f)), vertex.color);
 }
 
 bool Vertex::operator==(const Vertex& other)

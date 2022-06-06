@@ -2,12 +2,12 @@
 
 bool AABB::CollideWith(const Vertex& vertex) const
 {
-	const glm::vec2& pos = vertex.position;
+	const sol::Vec2f& pos = vertex.position;
 	return (pos.x >= this->min.position.x && pos.x <= this->max.position.x) 
 		&& (pos.y >= this->min.position.y && pos.y <= this->max.position.y); 
 }
 
-bool AABB::CollideWith(const glm::vec2 pos) const
+bool AABB::CollideWith(const sol::Vec2f pos) const
 {
 	return (pos.x >= this->min.position.x && pos.x <= this->max.position.x) 
 		&& (pos.y >= this->min.position.y && pos.y <= this->max.position.y); 
@@ -19,11 +19,11 @@ bool AABB::CollideWith(const AABB& box) const
 		&& (box.min.position.y <= this->max.position.y && box.max.position.y >= this->min.position.y);
 }
 
-AABB AABB::Transform(const glm::mat4& model)
+AABB AABB::Transform(const sol::Mat4f& model)
 {
 
 	AABB aabb = operator*(model, *this);
-	glm::vec4 color = aabb.max.color;	// odd
+	sol::Vec4f color = aabb.max.color;	// odd
 
 	float xMin = aabb.min.position.x, yMin = aabb.min.position.y;
 	float xMax = aabb.max.position.x, yMax = aabb.max.position.y;
@@ -61,7 +61,7 @@ std::ostream& operator<<(std::ostream& stream, const AABB& aabb)
 	return stream;
 }
 
-AABB operator*(const glm::mat4& mat, AABB& aabb)
+AABB operator*(const sol::Mat4f& mat, AABB& aabb)
 {
 	aabb.p1 = mat * aabb.p1;
 	aabb.max = mat * aabb.max;
@@ -106,7 +106,7 @@ AABB AABB::Create(const std::vector<Vertex>& vec)
 		, min };
 }
 
-AABB AABB::Create(glm::vec2 min, glm::vec2 max, glm::vec4 color)
+AABB AABB::Create(sol::Vec2f min, sol::Vec2f max, sol::Vec4f color)
 {
 	return { Vertex(min.x, max.y, color), Vertex(max, color), Vertex(max.x, min.y, color), Vertex(min, color) };
 }

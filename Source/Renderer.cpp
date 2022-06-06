@@ -7,9 +7,9 @@
 #include <imgui_impl_opengl3.h>
 #include <misc/cpp/imgui_stdlib.h>
 
-glm::mat4 projection;
-glm::mat4 view;
-glm::mat4 model;
+sol::Mat4f projection;
+sol::Mat4f view;
+sol::Mat4f model;
 
 // Simple scene setup function
 static void LoadScene(Renderer* renderer);
@@ -19,7 +19,7 @@ static void ImGuiCurrentObjectMenu(ObjectHandler& handler, int currentIndex);
 static void ImGuiMaterialControlMenu(ObjectHandler& handler, bool* materialCreation);
 static void ImGuiObjectCreationMenu(ObjectHandler& handler, bool* objectCreation);
 static void ImGuiMaterialCreationMenu(ObjectHandler& handler, bool* materialCreation);
-static void ImGuiCursorInfoMenu(ObjectHandler& handler, const glm::vec2 cursorPos);
+static void ImGuiCursorInfoMenu(ObjectHandler& handler, const sol::Vec2f cursorPos);
 
 // Overall data
 Renderer::Renderer(Window* const window, size_t vertices)
@@ -61,10 +61,10 @@ Renderer::Renderer(Window* const window, size_t vertices)
 
 	Object quad = Object
 	({
-		Vertex(-3.0f, 3.0f, glm::vec4(1.0f)),
-		Vertex(3.0f, 3.0f, glm::vec4(1.0f)),
-		Vertex(3.0f, -3.0f, glm::vec4(1.0f)),
-		Vertex(-3.0f, -3.0f, glm::vec4(1.0f)),
+		Vertex(-3.0f, 3.0f, sol::Vec4f(1.0f)),
+		Vertex(3.0f, 3.0f, sol::Vec4f(1.0f)),
+		Vertex(3.0f, -3.0f, sol::Vec4f(1.0f)),
+		Vertex(-3.0f, -3.0f, sol::Vec4f(1.0f)),
 	}, handler.FindMaterial("Basic_Material"));
 
 	quad.CreateAABB();
@@ -72,15 +72,15 @@ Renderer::Renderer(Window* const window, size_t vertices)
 
 	Camera& cam = this->GetCamera();
  	cam.fov = 45.0f;
- 	cam.position = glm::vec3(0.0f, 0.0f, 3.0f);
- 	cam.lookPosition = glm::vec3(0.0f);
- 	cam.up = glm::vec3(0.0f, 1.0f, 0.0f);
+ 	cam.position = sol::Vec3f(0.0f, 0.0f, 3.0f);
+ 	cam.lookPosition = sol::Vec3f(0.0f);
+ 	cam.up = sol::Vec3f(0.0f, 1.0f, 0.0f);
  	cam.xOffset = 0.0f;
 	cam.yOffset = 0.0f;
 
-	projection = glm::perspective(glm::radians(cam.fov), m_Window->AspectRatio(), 0.1f, 1000.0f);
-	view = glm::lookAt(cam.position, cam.lookPosition, cam.up);
-	model = glm::mat4(1.0f);
+	projection = sol::Perspective(sol::Radians(cam.fov),this->GetWindow()->AspectRatio(), 0.1f, 1000.0f);
+	view = sol::Transpose(sol::LookAt(cam.position, cam.lookPosition));
+	model = sol::Mat4f(1.0f);
 }
 
 Renderer::~Renderer()
@@ -94,7 +94,7 @@ Renderer::~Renderer()
 	this->GetObjectHandler().Materials().clear();
 }
 
-static const glm::vec2 GetCursorPos(Renderer* renderer)
+static const sol::Vec2f GetCursorPos(Renderer* renderer)
 {
 	Window* const window = renderer->GetWindow();
 	GLFWwindow* context = window->Context();
@@ -104,15 +104,16 @@ static const glm::vec2 GetCursorPos(Renderer* renderer)
 	{
 		double x, y;
 		glfwGetCursorPos(context, &x, &y);
+		// Screen coordinates -> Normalized Device Coordinates [-1; 1]
 		float width = 2.0f * x / window->Width() - 1.0f;
 		float height = 1.0f - 2.0f * y / window->Height();
-		glm::vec2 position = glm::vec2{ camera->xOffset + width * camera->xRenderBorder, camera->yOffset + height * camera->yRenderBorder };
+		sol::Vec2f position = sol::Vec2f{ camera->xOffset + width * camera->xRenderBorder, camera->yOffset + height * camera->yRenderBorder };
 		return position;
 	}
 	return {};
 }
 
-static glm::vec2 cursorPos = {};
+static sol::Vec2f cursorPos = {};
 
 // This method will be called each frame in main loop
 void Renderer::Update()
@@ -121,8 +122,8 @@ void Renderer::Update()
 	camera.Update(this->GetWindow()->AspectRatio());
 
 	cursorPos = ::GetCursorPos(this);
-	projection = glm::perspective(glm::radians(camera.fov), this->GetWindow()->AspectRatio(), 0.1f, 1000.0f);
-	view = glm::lookAt(camera.position, camera.lookPosition, camera.up);
+	projection = sol::Perspective(sol::Radians(camera.fov), this->GetWindow()->AspectRatio(), 0.1f, 1000.0f);
+	view = sol::LookAt(camera.position, camera.lookPosition);
 
 	RenderDrawData([&](const Shader& shader) -> void 
 	{
@@ -159,7 +160,7 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 	Camera& camera = this->GetCamera();
 	ObjectHandler& handler = this->GetObjectHandler();
 	std::vector<Object>& objects = handler.Objects();
-	glm::vec2 cursorPos = ::GetCursorPos(this);
+	sol::Vec2f cursorPos = ::GetCursorPos(this);
 	size_t offset = 0;
 	for (Object& object : objects)
 	{
@@ -173,7 +174,7 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 			continue;
 		}
 
-		glm::mat4 model = object.ConstructModel();
+		sol::Mat4f model = object.ConstructModel();
 		
 		const std::vector<Vertex>& objectVertices = object.Vertices();		
 		
@@ -241,8 +242,8 @@ static void LoadScene(Renderer* renderer)
 	handler.AddMaterial("Basic_Material", std::move(temp));
 	handler.AddMaterial("AABB_Material", std::move(aabbMaterial));
 	Material* basicMaterial = handler.FindMaterial("Basic_Material");
-	glm::vec4 blue = glm::vec4(0.4f, 0.5f, 0.7f, 0.3f);
-	glm::vec4 white = glm::vec4(0.9f, 0.9f, 0.9f, 0.5f);
+	sol::Vec4f blue = sol::Vec4f(0.4f, 0.5f, 0.7f, 0.3f);
+	sol::Vec4f white = sol::Vec4f(0.9f, 0.9f, 0.9f, 0.5f);
 	Object scene = Object({}, basicMaterial, false);
 	// we won't start from 20 and 10, so that
 	// the scene would look more like a grid, than a chess board
@@ -361,7 +362,7 @@ static void ImGuiCurrentObjectMenu(ObjectHandler& handler, int currentIndex)
 	if (ImGui::TreeNode("Current Object menu"))
 	{
 		static std::string materialChanger = "";
-		static glm::vec4 colorCache = {};				
+		static sol::Vec4f colorCache = {};				
 		Object* object = handler.FindObject(currentIndex);
 		if (object)
 		{
@@ -480,7 +481,7 @@ static void ImGuiObjectCreationMenu(ObjectHandler& handler, bool* objectCreation
 					, vertexCache[i].position.x
 					, vertexCache[i].position.y);
 				ImGui::TableSetColumnIndex(1);
-				glm::vec3 col = vertexCache[i].color;
+				sol::Vec3f col = vertexCache[i].color;
 				ImGui::TextColored({col.r, col.g, col.b, 1.0f}
 				, "rgb = (%.2f, %.2f, %.2f)", col.r, col.g, col.b);	// Make it display in hex!
 				ImGui::TableNextRow();
@@ -546,7 +547,7 @@ static void ImGuiMaterialCreationMenu(ObjectHandler& handler, bool* materialCrea
 	ImGui::End();
 }
 
-static void ImGuiCursorInfoMenu(ObjectHandler& handler, const glm::vec2 cursorPos)
+static void ImGuiCursorInfoMenu(ObjectHandler& handler, const sol::Vec2f cursorPos)
 {
 	ImGui::TextColored({0.3f, 0.6f, 0.9f, 1.0f}, "Cursor position: %.2f, %.2f", cursorPos.x, cursorPos.y);
 }

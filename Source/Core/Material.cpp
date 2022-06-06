@@ -124,6 +124,15 @@ void Shader::SetUniformMat4(const char* uniform, const glm::mat4& mat) const
 	m_UniformCache.emplace(uniform, location);
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
+
+void Shader::SetUniformMat4(const char* uniform, const sol::Mat4f& mat) const
+{
+	auto iterator = m_UniformCache.find(uniform);
+	unsigned int location = iterator == m_UniformCache.end() ? glGetUniformLocation(m_Program, uniform) : iterator->second;
+	m_UniformCache.emplace(uniform, location);
+	glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0].x);
+}
+
 void Shader::SetUniformVec4(const char* uniform, const glm::vec4& vec) const 
 {
 	auto iterator = m_UniformCache.find(uniform);

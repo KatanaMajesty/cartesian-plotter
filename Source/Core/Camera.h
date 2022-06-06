@@ -24,9 +24,9 @@ public:
 	// Camera's data
 	float fov;
 	// Components for lookAt matrix
-	glm::vec3 position;
-	glm::vec3 lookPosition;
-	glm::vec3 up;
+	sol::Vec3f position;
+	sol::Vec3f lookPosition;
+	sol::Vec3f up;
 
 	float xRenderBorder;
 	float yRenderBorder;

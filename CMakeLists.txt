@@ -5,11 +5,11 @@ add_subdirectory(External)
 
 find_package(GLEW REQUIRED)
 
-file(GLOB_RECURSE
-	SRC ./Source/*.cpp
-)
+file(GLOB_RECURSE SRC ./Source/*.cpp)
+# file(GLOB_RECURSE INL ./Source/Utility/Matrix.inl)
 
 add_executable(${PROJECT_NAME} Main.cpp ${SRC})
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE "${GLEW_INCLUDE_DIRS}"

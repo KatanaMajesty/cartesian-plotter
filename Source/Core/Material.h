@@ -3,6 +3,7 @@
 // Thirdparty & STD includes
 #include <glm/glm.hpp>
 #include <unordered_map>
+#include <Utility/Matrix.h>
 
 class Material;
 
@@ -31,6 +32,7 @@ public:
 
 	// Convenient uniform setters for all required types
 	void SetUniformMat4(const char* uniform, const glm::mat4& mat) const;
+	void SetUniformMat4(const char* uniform, const sol::Mat4f& mat) const;
 	void SetUniformVec4(const char* uniform, const glm::vec4& vec) const;
 	void SetUniformVec3(const char* uniform, const glm::vec3& vec) const;
 	void SetUniformVec2(const char* uniform, const glm::vec2& vec) const;
