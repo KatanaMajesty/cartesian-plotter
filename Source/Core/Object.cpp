@@ -14,11 +14,19 @@ Object::Object(std::vector<Vertex>&& vector, Material* material, bool isCollider
 {
 }
 
-sol::Mat4f Object::ConstructModel() const
+sol::Mat4f Object::RotationMat() const
 {
-	return sol::Scale(m_Scale)
-		* sol::RotateZ(m_RotationAngle) 
-		* sol::Translate(sol::Mat4f(1.0f), m_Transform);
+	return sol::RotateZ(this->Angle());
+}
+
+sol::Mat4f Object::ScaleMat() const
+{
+	return sol::Scale(this->Scale());
+}
+
+sol::Mat4f Object::TranslationMat() const
+{
+	return sol::Translate(sol::Mat4f(1.0f), this->Transform());
 }
 
 void Object::AddVertices(std::initializer_list<Vertex> vertices)
@@ -76,7 +84,7 @@ Object::Object(Object&& other)
 Object& Object::operator=(const Object& other)
 {
 	if (this == &other)
-            return *this;
+        return *this;
 
 	this->m_Vertices = other.m_Vertices;
 	this->m_UniformCallback = other.m_UniformCallback;
@@ -97,7 +105,7 @@ Object& Object::operator=(const Object& other)
 Object& Object::operator=(Object&& other)
 {
 	if (this == &other)
-            return *this;
+        return *this;
 
 	this->m_Vertices = std::move(other.m_Vertices);
 	this->m_UniformCallback = std::move(other.m_UniformCallback);

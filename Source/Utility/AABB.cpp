@@ -22,7 +22,7 @@ bool AABB::CollideWith(const AABB& box) const
 AABB AABB::Transform(const sol::Mat4f& model)
 {
 
-	AABB aabb = operator*(model, *this);
+	AABB aabb = model * (*this);
 	sol::Vec4f color = aabb.max.color;	// odd
 
 	float xMin = aabb.min.position.x, yMin = aabb.min.position.y;

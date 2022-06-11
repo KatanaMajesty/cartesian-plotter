@@ -180,19 +180,40 @@ namespace sol
 			(*this)[3][0] * v4.x + (*this)[3][1] * v4.y + (*this)[3][2] * v4.z + (*this)[3][3] * v4.w
 		};
 	}
-	Mat4f Mat<Mat4f::T, 4, 4>::operator*(const Mat4f& v4) const
+	Mat4f Mat<Mat4f::T, 4, 4>::operator*(const Mat4f& m4) const
 	{
-		Mat4f result;
-		for (size_t i = 0; i < 4; i++)
+		Mat4f result(1.0f);
+		// std::cout << "Multiplication of\n";
+		// std::cout << (*this)[0][0] << " " << (*this)[0][1] << " "<< (*this)[0][2] << " " << (*this)[0][3] << std::endl;
+		// std::cout << (*this)[1][0] << " " << (*this)[1][1] << " "<< (*this)[1][2] << " " << (*this)[1][3] << std::endl;
+		// std::cout << (*this)[2][0] << " " << (*this)[2][1] << " "<< (*this)[2][2] << " " << (*this)[2][3] << std::endl;
+		// std::cout << (*this)[3][0] << " " << (*this)[3][1] << " "<< (*this)[3][2] << " " << (*this)[3][3] << std::endl;
+		// std::cout << "And\n";
+		// std::cout << m4[0][0] << " " << m4[0][1] << " "<< m4[0][2] << " " << m4[0][3] << std::endl;
+		// std::cout << m4[1][0] << " " << m4[1][1] << " "<< m4[1][2] << " " << m4[1][3] << std::endl;
+		// std::cout << m4[2][0] << " " << m4[2][1] << " "<< m4[2][2] << " " << m4[2][3] << std::endl;
+		// std::cout << m4[3][0] << " " << m4[3][1] << " "<< m4[3][2] << " " << m4[3][3] << std::endl;
+		for (size_t r = 0; r < 4; r++)
 		{
-			for (size_t j = 0; j < 4; j++)
+			for (size_t c = 0; c < 4; c++)
 			{
-				result[i][j] = (*this)[i][0] * v4[0][j]
-					+ (*this)[i][1] * v4[1][j]
-					+ (*this)[i][2] * v4[2][j]
-					+ (*this)[i][3] * v4[3][j];
+				// std::cout << "Row: " << r << ", Col: " << c << "\n";
+				result[r][c] = (*this)[r][0] * m4[0][c]
+					+ (*this)[r][1] * m4[1][c]
+					+ (*this)[r][2] * m4[2][c]
+					+ (*this)[r][3] * m4[3][c];
+				// std::cout << "Result of " << (*this)[r][0] << " * " << m4[0][c] << 
+					// " + " << (*this)[r][1] << " * " << m4[1][c] <<
+					// " + " << (*this)[r][2] << " * " << m4[2][c] <<
+					// " + " << (*this)[r][3] << " * " << m4[3][c] <<
+					// " is " << result[r][c] << std::endl;
 			}
 		}
+		// std::cout << "Result of multiplication is:\n";
+		// std::cout << result[0][0] << " " << result[0][1] << " "<< result[0][2] << " " << result[0][3] << std::endl;
+		// std::cout << result[1][0] << " " << result[1][1] << " "<< result[1][2] << " " << result[1][3] << std::endl;
+		// std::cout << result[2][0] << " " << result[2][1] << " "<< result[2][2] << " " << result[2][3] << std::endl;
+		// std::cout << result[3][0] << " " << result[3][1] << " "<< result[3][2] << " " << result[3][3] << std::endl;
 		return result;
 	}
 	const Mat4f::Row_Type& Mat<Mat4f::T, 4, 4>::operator[](size_t i) const { return this->row[i]; }
@@ -232,7 +253,7 @@ namespace sol
 	{
 		Mat4f result(m);
 		result[3] = m[0]*v[0] + m[1]*v[1] + m[2]*v[2] + m[3];
-		return result;
+		return Transpose(result);
 	}
 
 	// https://en.wikipedia.org/wiki/Rotation_matrix

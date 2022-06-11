@@ -174,7 +174,7 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 			continue;
 		}
 
-		sol::Mat4f model = object.ConstructModel();
+		sol::Mat4f model = object.TranslationMat()  * object.RotationMat() * object.ScaleMat();
 		
 		const std::vector<Vertex>& objectVertices = object.Vertices();		
 		
@@ -182,7 +182,7 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 
 		const Shader& shader = material->GetShader();
 		shader.Bind();
-		shader.SetUniformMat4("u_Model", model);
+		shader.SetUniformMat4("u_Model", sol::Transpose(model));
 		object.CallUniformCallback(shader, object);
 		renderCallback(shader);
 
@@ -209,7 +209,8 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 						if (&other != &object && other.Collider())
 						{
 							AABB otherAabb = other.GetAABB();
-							otherAabb = otherAabb.Transform(other.ConstructModel());
+							sol::Mat4f otherModel = sol::Transpose(other.TranslationMat() * other.RotationMat() * other.ScaleMat());
+							otherAabb = otherAabb.Transform(otherModel);
 							return aabb.CollideWith(otherAabb);
 						}
 						return false;

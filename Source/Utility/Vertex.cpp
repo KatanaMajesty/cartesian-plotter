@@ -22,10 +22,10 @@ Vertex& operator*(const sol::Mat4f& mat, Vertex& vertex)
 	return vertex;
 }
 
-Vertex operator*(const sol::Mat4f& mat, const Vertex& vertex)
-{
-	return Vertex(sol::Vec2f(mat * sol::Vec4f(vertex.position, 0.0f, 1.0f)), vertex.color);
-}
+// Vertex operator*(const sol::Mat4f& mat, const Vertex& vertex)
+// {
+// 	return Vertex(sol::Vec2f(mat * sol::Vec4f(vertex.position, 0.0f, 1.0f)), vertex.color);
+// }
 
 bool Vertex::operator==(const Vertex& other)
 {

@@ -64,7 +64,9 @@ public:
 	~Object() = default;
 		
 	// This method returns a ready-to-go MVP matrix
-	sol::Mat4f ConstructModel() const;
+	sol::Mat4f RotationMat() const;
+	sol::Mat4f ScaleMat() const;
+	sol::Mat4f TranslationMat() const;
 	// will push_back vertices to object's vertex array 
 	void AddVertices(std::initializer_list<Vertex> vertices);
 	// changes the color of each vertex in the object's current vertex array
