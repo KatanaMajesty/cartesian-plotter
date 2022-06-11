@@ -1,7 +1,5 @@
 #pragma once
 
-// Thirdparty & STD includes
-#include <glm/glm.hpp>
 #include <Utility/Matrix.h>
 
 /**
@@ -19,7 +17,7 @@ struct Vertex
 	// overloaded operators for ostream& and matrix multiplication
 	friend std::ostream& operator<<(std::ostream& stream, const Vertex& v);
 	friend Vertex& operator*(const sol::Mat4f& mat, Vertex& vertex);
-	friend Vertex& operator*(const glm::mat4& mat, Vertex& vertex);
+	// friend Vertex& operator*(const glm::mat4& mat, Vertex& vertex);
 	// friend Vertex operator*(const sol::Mat4f& mat, const Vertex& vertex);
 	
 	// boolean comparison operators

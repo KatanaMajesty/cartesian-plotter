@@ -1,9 +1,5 @@
 #pragma once
 
-// Thirdparty & STD includes
-#include <glm/glm.hpp>
-
-// Project Includes
 #include <Utility/AABB.h>
 #include <Core/Object.h>
 
@@ -13,7 +9,7 @@
 class Camera
 {
 public:
-	Camera(float aspectRatio, float fov = 45.0f);
+	Camera(float aspectRatio, float distance = 5.0f, sol::Vec3f up = sol::Vec3f(0.0f, 1.0f, 0.0f), float fov = 45.0f);
 
 	// Updates camera's render borders, AABB, position and look position
 	void Update(float aspectRatio);

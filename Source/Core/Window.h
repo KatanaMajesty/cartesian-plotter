@@ -1,9 +1,6 @@
 #pragma once
 
-// Thirdparty & STD includes
 #include <unordered_map>
-
-// Project Includes
 #include <Renderer.h>
 #include <Core/Events.h>
 

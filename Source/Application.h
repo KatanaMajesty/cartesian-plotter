@@ -1,6 +1,5 @@
 #pragma once
 
-// Project Includes
 #include <Core/Window.h>
 
 /**

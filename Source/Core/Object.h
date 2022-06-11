@@ -1,12 +1,7 @@
 #pragma once
 
-// Thirdparty & STD includes
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 #include <unordered_map>
-
-// Project Includes
 #include <Utility/UUID.h>
 #include <Utility/AABB.h>
 #include <Utility/Vertex.h>
@@ -140,10 +135,10 @@ public:
 
 	// Be aware! If the key with the specified name exists, than the material WON'T be overriden,
 	// according to https://en.cppreference.com/w/cpp/container/unordered_map/emplace
-	void AddMaterial(const std::string&, const Material&);
-	void AddMaterial(std::string&&, const Material&);
-	void AddMaterial(std::string&&, Material&&);
-	void AddMaterial(const std::string&, Material&&);
+	Material* AddMaterial(const std::string&, const Material&);
+	Material* AddMaterial(std::string&&, const Material&);
+	Material* AddMaterial(std::string&&, Material&&);
+	Material* AddMaterial(const std::string&, Material&&);
 	// AssignMaterial is a workaround for material overriding. Currently not implemented as not needed
 	// See https://en.cppreference.com/w/cpp/container/unordered_map/insert_or_assign for more info
 	// void AssignMaterial(const std::string&, const Material&);	Materials are added with std::unordered_map::insert_or_assign()

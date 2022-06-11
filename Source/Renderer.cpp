@@ -1,7 +1,6 @@
 #include <Renderer.h>
 #include <Core/Window.h>
 #include <Core/Object.h>
-
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -59,28 +58,85 @@ Renderer::Renderer(Window* const window, size_t vertices)
 
 	::LoadScene(this);
 
-	Object quad = Object
-	({
-		Vertex(-3.0f, 3.0f, sol::Vec4f(1.0f)),
-		Vertex(3.0f, 3.0f, sol::Vec4f(1.0f)),
-		Vertex(3.0f, -3.0f, sol::Vec4f(1.0f)),
-		Vertex(-3.0f, -3.0f, sol::Vec4f(1.0f)),
-	}, handler.FindMaterial("Basic_Material"));
-
-	quad.CreateAABB();
-	handler.AddObject(std::move(quad));
-
 	Camera& cam = this->GetCamera();
- 	cam.fov = 45.0f;
- 	cam.position = sol::Vec3f(0.0f, 0.0f, 3.0f);
- 	cam.lookPosition = sol::Vec3f(0.0f);
- 	cam.up = sol::Vec3f(0.0f, 1.0f, 0.0f);
- 	cam.xOffset = 0.0f;
-	cam.yOffset = 0.0f;
 
 	projection = sol::Perspective(sol::Radians(cam.fov),this->GetWindow()->AspectRatio(), 0.1f, 1000.0f);
 	view = sol::Transpose(sol::LookAt(cam.position, cam.lookPosition));
 	model = sol::Mat4f(1.0f);
+}
+
+static void LoadScene(Renderer* renderer)
+{
+	ObjectHandler& handler = renderer->GetObjectHandler();
+	
+	Material* basicLMaterial = handler.AddMaterial("Basic_Lines", std::move(Material("Basic", GL_LINES)));
+	Material* basicTFMaterial = handler.AddMaterial("Basic_Triangle_Fan", std::move(Material("Basic", GL_TRIANGLE_FAN)));
+	Material* aabbMaterial = handler.AddMaterial("AABB_Material", std::move(Material("AABBShader", GL_LINE_LOOP)));	
+
+	sol::Vec4f blue = sol::Vec4f(0.4f, 0.5f, 0.7f, 0.3f);
+	sol::Vec4f white = sol::Vec4f(0.9f, 0.9f, 0.9f, 0.5f);
+	sol::Vec4f red = {0.9f, 0.3f, 0.6f, 1.0f};
+	sol::Vec4f green = {0.6f, 0.9f, 0.6f, 1.0f};
+	sol::Vec4f yellow = {0.8f, 0.6f, 0.1f, 1.0f};
+
+	Object scene = Object({}, basicLMaterial, false);
+	// we won't start from 20 and 10, so that
+	// the scene would look more like a grid, than a chess board
+	for (float f = -19.0f; f < 20; f += 1.0f)
+	{
+		scene.AddVertices
+		({
+			Vertex(f, -10.0f, blue),
+			Vertex(f,  10.0f, blue),
+		});
+	}
+	for (float f = -9.0f; f < 10; f += 1.0f)
+	{
+		scene.AddVertices
+		({
+			Vertex(-20.0f, f, blue),
+			Vertex( 20.0f, f, blue),
+		});
+	}
+	scene.AddVertices
+	({
+		Vertex(-21.0f, 0.0f, white),
+		Vertex( 21.0f, 0.0f, white),
+		// axis arrows
+		Vertex(20.8f,  0.2f, white),
+		Vertex(21.0f,  0.0f, white),
+		Vertex(20.8f, -0.2f, white),
+		Vertex(21.0f,  0.0f, white),
+	});
+	scene.AddVertices
+	({
+		Vertex(0.0f, -11.0f, white),
+		Vertex(0.0f,  11.0f, white),
+		// axis arrows
+		Vertex(-0.2f, 10.8f, white),
+		Vertex( 0.0f, 11.0f, white),
+		Vertex( 0.2f, 10.8f, white),
+		Vertex( 0.0f, 11.0f, white),
+	});
+	/* As of 02.06
+	We should use std::move for object, as we wont be able to affect those objects,
+	that are being rendered with this variables, thus it's ambiguous to make a copy,
+	which leads to new UUID generation
+	*/
+	scene.SetSealed(true);
+	scene.CreateAABB();
+	handler.AddObject(std::move(scene));
+
+	Object quad = Object
+	({
+		Vertex(-3.0f, 3.0f, red),
+		Vertex(3.0f, 3.0f, green),
+		Vertex(3.0f, -3.0f, blue),
+		Vertex(-3.0f, -3.0f, yellow),
+	}, basicTFMaterial);
+
+	quad.CreateAABB();
+	handler.AddObject(std::move(quad));
 }
 
 Renderer::~Renderer()
@@ -228,70 +284,6 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 			}
 		}
 	}
-}
-
-static void LoadScene(Renderer* renderer)
-{
-	ObjectHandler& handler = renderer->GetObjectHandler();
-	Material temp = Material("Basic", GL_LINES);
-	Material aabbMaterial = Material("AABBShader", GL_LINE_LOOP);
-	/*
-	Should use std::move for materials, as the Shader's copy-constructor
-	is not about deep-copying. Also if we change the basicMaterial variable, we wont
-	affect the material, that is copied into ObjectHandler object, thus its ambiguous to copy
-	*/
-	handler.AddMaterial("Basic_Material", std::move(temp));
-	handler.AddMaterial("AABB_Material", std::move(aabbMaterial));
-	Material* basicMaterial = handler.FindMaterial("Basic_Material");
-	sol::Vec4f blue = sol::Vec4f(0.4f, 0.5f, 0.7f, 0.3f);
-	sol::Vec4f white = sol::Vec4f(0.9f, 0.9f, 0.9f, 0.5f);
-	Object scene = Object({}, basicMaterial, false);
-	// we won't start from 20 and 10, so that
-	// the scene would look more like a grid, than a chess board
-	for (float f = -19.0f; f < 20; f += 1.0f)
-	{
-		scene.AddVertices
-		({
-			Vertex(f, -10.0f, blue),
-			Vertex(f,  10.0f, blue),
-		});
-	}
-	for (float f = -9.0f; f < 10; f += 1.0f)
-	{
-		scene.AddVertices
-		({
-			Vertex(-20.0f, f, blue),
-			Vertex( 20.0f, f, blue),
-		});
-	}
-	scene.AddVertices
-	({
-		Vertex(-21.0f, 0.0f, white),
-		Vertex( 21.0f, 0.0f, white),
-		// axis arrows
-		Vertex(20.8f,  0.2f, white),
-		Vertex(21.0f,  0.0f, white),
-		Vertex(20.8f, -0.2f, white),
-		Vertex(21.0f,  0.0f, white),
-	});
-	scene.AddVertices
-	({
-		Vertex(0.0f, -11.0f, white),
-		Vertex(0.0f,  11.0f, white),
-		// axis arrows
-		Vertex(-0.2f, 10.8f, white),
-		Vertex( 0.0f, 11.0f, white),
-		Vertex( 0.2f, 10.8f, white),
-		Vertex( 0.0f, 11.0f, white),
-	});
-	/* As of 02.06
-	We should use std::move for object, as we wont be able to affect those objects,
-	that are being rendered with this variables, thus it's ambiguous to make a copy,
-	which leads to new UUID generation
-	*/
-	scene.SetSealed(true);
-	scene.CreateAABB();
-	handler.AddObject(std::move(scene));
 }
 
 static void ImGuiObjectControlMenu(ObjectHandler& handler, bool* objectCreation)

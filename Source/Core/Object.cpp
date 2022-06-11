@@ -1,5 +1,3 @@
-#include <glm/glm.hpp>
-
 #include <Core/Object.h>
 
 Object::Object(std::initializer_list<Vertex> list, Material* material, bool isCollider, std::function<bool(const Shader&, Object&)> uniformCallback)
@@ -142,25 +140,24 @@ ObjectHandler::ObjectHandler()
 {
 }
 
-void ObjectHandler::AddMaterial(const std::string& name, const Material& material)
+Material* ObjectHandler::AddMaterial(const std::string& name, const Material& material)
 {
-	m_Materials->emplace(name, material);
+	return &m_Materials->emplace(name, material).first->second;
 }
 
-void ObjectHandler::AddMaterial(std::string&& name, const Material& material)
+Material* ObjectHandler::AddMaterial(std::string&& name, const Material& material)
 {
-	m_Materials->emplace(std::move(name), material);
+	return &m_Materials->emplace(std::move(name), material).first->second;
 }
 
-void ObjectHandler::AddMaterial(std::string&& name, Material&& material)
+Material* ObjectHandler::AddMaterial(std::string&& name, Material&& material)
 {
-	std::cout << "Material's render mode: " << material.GetRenderMode() << std::endl;
-	m_Materials->emplace(std::move(name), std::move(material));
+	return &m_Materials->emplace(std::move(name), std::move(material)).first->second;
 }
 
-void ObjectHandler::AddMaterial(const std::string& name, Material&& material)
+Material* ObjectHandler::AddMaterial(const std::string& name, Material&& material)
 {
-	m_Materials->emplace(name, std::move(material));
+	return &m_Materials->emplace(name, std::move(material)).first->second;
 }
 
 Material* ObjectHandler::FindMaterial(const std::string& name)

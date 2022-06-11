@@ -1,23 +1,11 @@
 #pragma once
 
-// Thirdparty & STD includes
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <unordered_map>
 #include <vector>
 #include <imgui.h>
-
-// Project Includes
 #include <Core/Material.h>
 #include <Core/Camera.h>
 #include <Core/Object.h>
-
-/*
-TODO until 06.05:	
-- Create own matrices and replace glm
-- Final code polish
-*/
 
 class Window;
 

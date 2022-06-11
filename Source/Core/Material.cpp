@@ -1,7 +1,5 @@
 #include <Core/Material.h>
 
-#include <glm/gtc/type_ptr.hpp>
-
 Shader::Shader(const std::string& name)
 : m_Name(name), m_Program(glCreateProgram())
 , m_Vertex(glCreateShader(GL_VERTEX_SHADER)), m_Fragment(glCreateShader(GL_FRAGMENT_SHADER))
@@ -117,13 +115,13 @@ Shader::~Shader()
 	glDeleteProgram(m_Program);
 }
 
-void Shader::SetUniformMat4(const char* uniform, const glm::mat4& mat) const 
-{
-	auto iterator = m_UniformCache.find(uniform);
-	unsigned int location = iterator == m_UniformCache.end() ? glGetUniformLocation(m_Program, uniform) : iterator->second;
-	m_UniformCache.emplace(uniform, location);
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
-}
+// void Shader::SetUniformMat4(const char* uniform, const glm::mat4& mat) const 
+// {
+// 	auto iterator = m_UniformCache.find(uniform);
+// 	unsigned int location = iterator == m_UniformCache.end() ? glGetUniformLocation(m_Program, uniform) : iterator->second;
+// 	m_UniformCache.emplace(uniform, location);
+// 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+// }
 
 void Shader::SetUniformMat4(const char* uniform, const sol::Mat4f& mat) const
 {
@@ -133,27 +131,27 @@ void Shader::SetUniformMat4(const char* uniform, const sol::Mat4f& mat) const
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0].x);
 }
 
-void Shader::SetUniformVec4(const char* uniform, const glm::vec4& vec) const 
+void Shader::SetUniformVec4(const char* uniform, const sol::Vec4f& vec) const 
 {
 	auto iterator = m_UniformCache.find(uniform);
 	unsigned int location = iterator == m_UniformCache.end() ? glGetUniformLocation(m_Program, uniform) : iterator->second;
 	m_UniformCache.emplace(uniform, location);
-	glUniform4fv(location, 1, glm::value_ptr(vec));
+	glUniform4fv(location, 1, &vec.x);
 }
-void Shader::SetUniformVec3(const char* uniform, const glm::vec3& vec) const 
+void Shader::SetUniformVec3(const char* uniform, const sol::Vec3f& vec) const 
 {
 	auto iterator = m_UniformCache.find(uniform);
 	unsigned int location = iterator == m_UniformCache.end() ? glGetUniformLocation(m_Program, uniform) : iterator->second;
 	m_UniformCache.emplace(uniform, location);
-	glUniform3fv(location, 1, glm::value_ptr(vec));
+	glUniform3fv(location, 1, &vec.x);
 
 }
-void Shader::SetUniformVec2(const char* uniform, const glm::vec2& vec) const
+void Shader::SetUniformVec2(const char* uniform, const sol::Vec2f& vec) const
 {
 	auto iterator = m_UniformCache.find(uniform);
 	unsigned int location = iterator == m_UniformCache.end() ? glGetUniformLocation(m_Program, uniform) : iterator->second;
 	m_UniformCache.emplace(uniform, location);
-	glUniform2fv(location, 1, glm::value_ptr(vec));
+	glUniform2fv(location, 1, &vec.x);
 }
 
 void Shader::SetUniformBool(const char* uniform, bool state) const

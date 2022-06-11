@@ -76,7 +76,7 @@ namespace Events
 		{
 			// if it is selected, pass the state of object to shader and assign a new selected color
 			shader.SetUniformBool("u_Selected", true);
-			shader.SetUniformVec4("u_SelectedColor", glm::vec4(0.9f, 0.6f, 0.3f, 0.5f));
+			shader.SetUniformVec4("u_SelectedColor", sol::Vec4f(0.9f, 0.6f, 0.3f, 0.5f));
 		}
 		else
 		{

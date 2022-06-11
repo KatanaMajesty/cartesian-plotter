@@ -20,7 +20,7 @@ target_link_libraries(${PROJECT_NAME}
     IMGUI
     glfw
     GLEW::GLEW
-    glm::glm
+    # glm::glm
     GL
 )
 

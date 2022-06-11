@@ -1,10 +1,6 @@
 #pragma once
 
-// Thirdparty & STD includes
 #include <vector>
-#include <glm/glm.hpp>
-
-// Project Includes
 #include <Utility/Vertex.h>
 
 /*
