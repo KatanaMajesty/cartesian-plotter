@@ -54,7 +54,7 @@ public:
 	// renderCallback will be called each time the object is being rendered
 	// renderCallback is called before glDrawArrays and after adding object vertices 
 	// and calling Object::CallUniformCallback()
-	void RenderDrawData(std::function<void(const Shader&)> renderCallback);
+	void RenderDrawData(const std::function<void(const Shader&)>& renderCallback);
 
 	// Getters and setters
 	inline Window* const GetWindow() const { return m_Window; }

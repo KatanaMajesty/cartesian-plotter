@@ -16,25 +16,25 @@ namespace Events
 	bool OnKeyLeft(Window* window)
 	{
 		Camera& camera = window->RenderContext()->GetCamera();
-		camera.xOffset -= moveDelta;
+		camera.offset.x -= moveDelta;
 		return true;
 	}
 	bool OnKeyRight(Window* window)
 	{
 		Camera& camera = window->RenderContext()->GetCamera();
-		camera.xOffset += moveDelta;
+		camera.offset.x += moveDelta;
 		return true;
 	}
 	bool OnKeyUp(Window* window)
 	{
 		Camera& camera = window->RenderContext()->GetCamera();
-		camera.yOffset += moveDelta;
+		camera.offset.y += moveDelta;
 		return true;
 	}
 	bool OnKeyDown(Window* window)
 	{
 		Camera& camera = window->RenderContext()->GetCamera();
-		camera.yOffset -= moveDelta;
+		camera.offset.y -= moveDelta;
 		return true;
 	}
 
@@ -51,14 +51,14 @@ namespace Events
 		Camera& camera = renderer->GetCamera();
 		if (yoffset > 0)
 		{
-			if (camera.zOffset > zDelta)
+			if (camera.offset.z > zDelta)
 			{
-				camera.zOffset -= zDelta;
+				camera.offset.z -= zDelta;
 			}
 		}
 		else
 		{
-			camera.zOffset += zDelta;
+			camera.offset.z += zDelta;
 		}
 		return true;
 	}

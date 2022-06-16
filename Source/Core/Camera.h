@@ -27,9 +27,7 @@ public:
 	float xRenderBorder;
 	float yRenderBorder;
 
-	float xOffset = 0.0f;
-	float yOffset = 0.0f;
-	float zOffset = 3.0f;
+	sol::Vec3f offset;
 
 	AABB aabb;
 };

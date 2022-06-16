@@ -315,9 +315,7 @@ namespace sol
 	{
 		Vec3f f = Normalize(to - from);
 		Vec3f r = Normalize(Cross(f, up));
-		Vec3f u = Cross(r, f); // TEST!
-
-		f = -f; // negate the forward vector
+		Vec3f u = Cross(r, f);
 
 		Mat4f result(1.0f);
 
@@ -330,10 +328,9 @@ namespace sol
 		result[2][0] = f.x;
 		result[2][1] = f.y;
 		result[2][2] = f.z;
-		result[3][0] = -Dot(r, from);
-		result[3][1] = -Dot(u, from);
-		result[3][2] = -Dot(f, from);
-
+		result[3][0] = -from.x;
+		result[3][1] = -from.y;
+		result[3][2] = -from.z;
 		return result;
 	}
 }

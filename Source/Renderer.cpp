@@ -163,7 +163,7 @@ static const sol::Vec2f GetCursorPos(Renderer* renderer)
 		// Screen coordinates -> Normalized Device Coordinates [-1; 1]
 		float width = 2.0f * x / window->Width() - 1.0f;
 		float height = 1.0f - 2.0f * y / window->Height();
-		sol::Vec2f position = sol::Vec2f{ camera->xOffset + width * camera->xRenderBorder, camera->yOffset + height * camera->yRenderBorder };
+		sol::Vec2f position = sol::Vec2f{ camera->offset.x + width * camera->xRenderBorder, camera->offset.y + height * camera->yRenderBorder };
 		return position;
 	}
 	return {};
@@ -211,7 +211,7 @@ void Renderer::ImGuiUpdate(ImGuiIO& io)
 As of 31.05 this method no longer implements dynamic batching
 Drawcall is being called per each object that is in DynamicBatching map
 */
-void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
+void Renderer::RenderDrawData(const std::function<void(const Shader&)>& renderCallback)
 {
 	Camera& camera = this->GetCamera();
 	ObjectHandler& handler = this->GetObjectHandler();
@@ -260,12 +260,12 @@ void Renderer::RenderDrawData(std::function<void(const Shader&)> renderCallback)
 
 				if (object.Collider())
 				{
-					collides = std::any_of(objects.begin(), objects.end(), [&](const Object& other) -> bool
+					collides = std::any_of(objects.begin(), objects.end(), [&](Object& other) -> bool
 					{
-						if (&other != &object && other.Collider())
+						if (&other != &object && !other.IsSealed() && other.Collider())
 						{
 							AABB otherAabb = other.GetAABB();
-							sol::Mat4f otherModel = sol::Transpose(other.TranslationMat() * other.RotationMat() * other.ScaleMat());
+							sol::Mat4f otherModel = other.TranslationMat() * other.RotationMat() * other.ScaleMat();
 							otherAabb = otherAabb.Transform(otherModel);
 							return aabb.CollideWith(otherAabb);
 						}
@@ -355,7 +355,7 @@ static void ImGuiCurrentObjectMenu(ObjectHandler& handler, int currentIndex)
 	if (ImGui::TreeNode("Current Object menu"))
 	{
 		static std::string materialChanger = "";
-		static sol::Vec4f colorCache = {};				
+		static sol::Vec4f colorCache = {0.0f, 0.0f, 0.0f, 1.0f};				
 		Object* object = handler.FindObject(currentIndex);
 		if (object)
 		{
@@ -380,7 +380,7 @@ static void ImGuiCurrentObjectMenu(ObjectHandler& handler, int currentIndex)
 			ImGui::SliderAngle("Object's Rotation Angle", &object->Angle());
 			ImGui::SliderFloat2("Object's Scale", reinterpret_cast<float*>(&object->Scale()), 0.2f, 10.0f);
 			ImGui::SliderFloat2("Object's Translation", reinterpret_cast<float*>(&object->Transform()), -100.0f, 100.0f);
-			ImGui::ColorPicker4("Object's Color", &colorCache.r);
+			ImGui::ColorEdit4("Object's Color", &colorCache.r);
 			ImGui::SameLine();
 			if (ImGui::Button("Change color"))
 			{
@@ -450,7 +450,7 @@ static void ImGuiObjectCreationMenu(ObjectHandler& handler, bool* objectCreation
 	static Vertex pointCache;
 	static std::string objectMatNameCache = "";
 	ImGui::InputFloat2("Vertex coordinates", &pointCache.position.x);
-	ImGui::ColorPicker4("Vertex color", &pointCache.color.r);
+	ImGui::ColorEdit4("Vertex color", &pointCache.color.r);
 	if (ImGui::Button("Push vertex"))
 	{
 		if (std::find(vertexCache.begin(), vertexCache.end(), pointCache) == vertexCache.end())

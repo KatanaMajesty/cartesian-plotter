@@ -37,7 +37,7 @@ private:
     static void ParseMouseScroll(GLFWwindow* window, double xoffset, double yoffset);
 	static void ParseKeyboardInput(GLFWwindow* context, int key, int scancode, int action, int mods);
 	static void ParseWindowResize(GLFWwindow* context, int width, int height);
-    static void ParseGLFWErrors(int error, const char* description); 
+    static void ParseGLFWErrors(int error, const char* description);
 private:
 	const char* m_Title;
 	std::unique_ptr<Window> m_Window;

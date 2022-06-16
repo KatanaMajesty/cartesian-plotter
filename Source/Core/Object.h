@@ -43,7 +43,7 @@ public:
 	// Constructor of object with rvalue vector
 	Object(std::vector<Vertex>&& vector, Material* material, bool isCollider = true, UniformCallback uniformCallback = Events::OnObjectRender);
 	
-	// Custom copy- and move- constructors & operators
+	// Rule of 5
 
 	// Copy constructor creates new UUID, creates new AABB
 	Object(const Object&);
@@ -71,8 +71,8 @@ public:
 
 	// UniformCallback is a function, that is called each time an object is being rendered.
 	// Called right before Renderer::FrameCallback() callback
-	void CallUniformCallback(const Shader& shader, Object& object) const { m_UniformCallback(shader, object); }
-	void SetUniformCallback(const UniformCallback& callback) { m_UniformCallback = callback; }
+	inline void CallUniformCallback(const Shader& shader, Object& object) const { m_UniformCallback(shader, object); }
+	inline void SetUniformCallback(const UniformCallback& callback) { m_UniformCallback = callback; }
 
 	// Many getters and setters
 	inline const Material* GetMaterial() { return m_Material; }
